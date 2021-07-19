@@ -4,13 +4,38 @@ import returnTime from './utils/returnTime';
 export default function App(): JSX.Element {
     const [second, setSeconds] = useState(10);
     const [work, setWork] = useState(false);
+    const [rest, setRest] = useState(false);
+    const [pause, setPause] = useState(false);
+
+    const handleClickWork = () => setWork(true);
+
+    const handleClickRest = () => {
+        setRest(true);
+        setSeconds(5);
+    };
+
+    const handleClickPause = () => {
+        setPause(!pause);
+        setWork(false);
+        setRest(false);
+    };
 
     useEffect(() => {
         let timer = 0;
 
-        if (second === 0) setWork(false);
+        if (work && second === 0) {
+            setWork(false);
+            setRest(true);
+            setSeconds(5);
+        }
 
-        if (work) {
+        if (rest && second === 0) {
+            setRest(false);
+            setWork(true);
+            setSeconds(10);
+        }
+
+        if (work || rest) {
             timer = window.setInterval(() => {
                 setSeconds((prevSecond) => prevSecond - 1);
             }, 1000);
@@ -19,15 +44,26 @@ export default function App(): JSX.Element {
         }
 
         return () => clearInterval(timer);
-    }, [work, second]);
+    }, [work, second, rest]);
 
     return (
         <>
             <h1>{returnTime(second)}</h1>
-            <button type="button" onClick={() => setWork(true)}>
+            <button
+                disabled={pause}
+                type="button"
+                onClick={() => handleClickWork()}
+            >
                 Work
             </button>
-            <button type="button" onClick={() => setWork(false)}>
+            <button
+                disabled={pause}
+                type="button"
+                onClick={() => handleClickRest()}
+            >
+                rest
+            </button>
+            <button type="button" onClick={() => handleClickPause()}>
                 pause
             </button>
         </>
