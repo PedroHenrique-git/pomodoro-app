@@ -1,9 +1,18 @@
+:root {
+    --var--background: #040404;
+}
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
+html, body, #root {
+    width: 100vw;
+}
+
 body {
+    background: var(--var--background);
     font-family: sans-serif;
 }
