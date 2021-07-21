@@ -1,11 +1,13 @@
 :root {
-    --var--background-main: #5a5a5a;
-    --var--border-button: #9f9f9f;
+    --var--background-main: #262626;
+    --var--border-button: #343434;
     --var-text: #e7e7e7;
+    --var--border-main: var(--var--border-button);
 }
 
 main {
     background: var(--var--background-main);
+    border: 1px solid var(--var--border-main);
     border-radius: 10px;
     max-width: 600px;
     margin: 80px auto 0 auto;
@@ -26,6 +28,20 @@ main h1 {
     color: var(--var-text);
 }
 
+main > h1:nth-of-type(2) {
+    border: 1px solid var(--var--border-button);
+    border-radius: 50%;
+    font-size: 4.3em;
+    padding: 10px;
+    height: 200px;
+    width: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 main .controls_container {
     display: flex;
     align-items: center;
@@ -35,7 +51,7 @@ main .controls_container button {
     background: transparent;
     border-radius: 10px;
     border: 1px solid var(--var--border-button);
-    color: var(--var--border-button);
+    color: var(--var-text);
     cursor: pointer;
     font-size: 1.2em;
     padding: 10px;
@@ -43,4 +59,12 @@ main .controls_container button {
 
 main .controls_container button:not(:last-of-type) {
     margin-right: 15px;
+}
+
+.work {
+    border: 1px solid #ff4544 !important;    
+}
+
+.rest {
+    border: 1px solid #8edf00 !important;    
 }

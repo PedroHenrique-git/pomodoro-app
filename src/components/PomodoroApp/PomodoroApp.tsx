@@ -1,13 +1,22 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useEffect, useRef, useState } from 'react';
 import returnTime from '../../utils/returnTime';
 import Button from '../Button/Button';
 import './PomodoroApp.css';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const audioFile = require('../../audio/sound.mp3');
+
+const audio = new Audio(audioFile);
 
 interface IData {
     second: number;
     work: boolean;
     rest: boolean;
     timeWorked: number;
+    currentClass: string;
+    currentTask: string;
+    pomodoroCycles: number;
 }
 
 export default function PomodoroApp(): JSX.Element {
@@ -16,17 +25,35 @@ export default function PomodoroApp(): JSX.Element {
     const [rest, setRest] = useState(false);
     const [pause, setPause] = useState(false);
     const [timeWorked, setTimeWorked] = useState(0);
+    const [pomodoroCycles, setPomodoroCycles] = useState(0);
+    const [currentTask, setCurrentTask] = useState('doing nothing');
+    const timeRef = useRef<HTMLHeadingElement>(null);
 
     const activeWork = () => {
         setRest(false);
         setWork(true);
         setSeconds(10);
+        setCurrentTask('Work');
+
+        timeRef!.current!.classList.remove('rest');
+        timeRef!.current!.classList.add('work');
     };
 
-    const activeRest = () => {
+    const activeRest = (isBigRest?: boolean) => {
         setWork(false);
         setRest(true);
-        setSeconds(5);
+
+        if (isBigRest) {
+            setSeconds(5 * 4);
+        } else {
+            setSeconds(5);
+        }
+
+        setCurrentTask('Rest');
+        setPomodoroCycles(pomodoroCycles + 1);
+
+        timeRef!.current!.classList.remove('work');
+        timeRef!.current!.classList.add('rest');
     };
 
     const handleClickWork = () => activeWork();
@@ -43,14 +70,20 @@ export default function PomodoroApp(): JSX.Element {
             setWork(data.work);
             setRest(data.rest);
             setPause(true);
+            setSeconds(data.second);
             setTimeWorked(data.timeWorked);
+            setCurrentTask(data.currentTask);
+            setPomodoroCycles(data.pomodoroCycles);
+            timeRef!.current!.classList.add(data.currentClass);
         }
     }, []);
 
     useEffect(() => {
         let timer = 0;
 
-        if (work && second === 0) activeRest();
+        const conditional = pomodoroCycles !== 0 && pomodoroCycles % 4 === 0;
+
+        if (work && second === 0) activeRest(conditional);
 
         if (rest && second === 0) activeWork();
 
@@ -59,6 +92,9 @@ export default function PomodoroApp(): JSX.Element {
             rest,
             second,
             timeWorked,
+            currentTask,
+            pomodoroCycles,
+            currentClass: timeRef!.current!.className,
         };
 
         localStorage.setItem('pomodoroData', JSON.stringify(pomodoroData));
@@ -73,12 +109,14 @@ export default function PomodoroApp(): JSX.Element {
         }
 
         return () => clearInterval(timer);
-    }, [work, second, rest, pause]);
+    }, [work, second, rest, pause, pomodoroCycles]);
 
     return (
         <main>
-            <h1>{returnTime(second)}</h1>
+            <h1>You are: {currentTask}</h1>
+            <h1 ref={timeRef}>{returnTime(second)}</h1>
             <h1>time worked: {returnTime(timeWorked)}</h1>
+            <h1>pomodoro cycles: {pomodoroCycles}</h1>
             <div className="controls_container">
                 <Button
                     disabled={pause}
