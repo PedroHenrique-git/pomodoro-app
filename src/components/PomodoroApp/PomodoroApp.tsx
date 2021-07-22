@@ -3,11 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import returnTime from '../../utils/returnTime';
 import Button from '../Button/Button';
 import './PomodoroApp.css';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const audioFile = require('../../audio/sound.mp3');
-
-const audio = new Audio(audioFile);
+import audio from '../../audio/sound.mp3';
 
 interface IData {
     second: number;
@@ -18,6 +14,8 @@ interface IData {
     currentTask: string;
     pomodoroCycles: number;
 }
+
+const audioTag = new Audio(audio);
 
 export default function PomodoroApp(): JSX.Element {
     const [second, setSeconds] = useState(10);
@@ -45,6 +43,7 @@ export default function PomodoroApp(): JSX.Element {
 
         if (isBigRest) {
             setSeconds(5 * 4);
+            audioTag.play();
         } else {
             setSeconds(5);
         }
