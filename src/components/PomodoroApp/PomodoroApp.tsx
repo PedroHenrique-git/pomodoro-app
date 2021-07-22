@@ -73,7 +73,10 @@ export default function PomodoroApp(): JSX.Element {
             setTimeWorked(data.timeWorked);
             setCurrentTask(data.currentTask);
             setPomodoroCycles(data.pomodoroCycles);
-            timeRef!.current!.classList.add(data.currentClass);
+
+            if (data.currentClass) {
+                timeRef!.current!.classList.add(data.currentClass);
+            }
         }
     }, []);
 
