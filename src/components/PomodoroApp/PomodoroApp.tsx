@@ -16,9 +16,11 @@ interface IData {
 }
 
 const audioTag = new Audio(audio);
+const workTime = 1500; // 25 min
+const restTime = 300; // 5 min
 
 export default function PomodoroApp(): JSX.Element {
-    const [second, setSeconds] = useState(10);
+    const [second, setSeconds] = useState(workTime);
     const [work, setWork] = useState(false);
     const [rest, setRest] = useState(false);
     const [pause, setPause] = useState(false);
@@ -30,7 +32,7 @@ export default function PomodoroApp(): JSX.Element {
     const activeWork = () => {
         setRest(false);
         setWork(true);
-        setSeconds(10);
+        setSeconds(workTime);
         setCurrentTask('Work');
 
         timeRef!.current!.classList.remove('rest');
@@ -42,10 +44,10 @@ export default function PomodoroApp(): JSX.Element {
         setRest(true);
 
         if (isBigRest) {
-            setSeconds(5 * 4);
+            setSeconds(restTime * 4);
             audioTag.play();
         } else {
-            setSeconds(5);
+            setSeconds(restTime);
         }
 
         setCurrentTask('Rest');
