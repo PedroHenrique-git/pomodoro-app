@@ -6,6 +6,10 @@
 }
 
 main {
+    padding: 0 10px;
+}
+
+section {
     background: var(--var--background-main);
     border: 1px solid var(--var--border-main);
     border-radius: 10px;
@@ -19,16 +23,17 @@ main {
     justify-content: space-between;
 }
 
-main > h1 {
+section > h1 {
     margin-bottom: 30px;
+    text-align: center;
 }
 
-main h1 {
+section h1 {
     font-size: 1.8em;
     color: var(--var-text);
 }
 
-main > h1:nth-of-type(2) {
+section > h1:nth-of-type(2) {
     border: 1px solid var(--var--border-button);
     border-radius: 50%;
     font-size: 4.3em;
@@ -42,12 +47,12 @@ main > h1:nth-of-type(2) {
 }
 
 
-main .controls_container {
+section .controls_container {
     display: flex;
     align-items: center;
 }
 
-main .controls_container button {
+section .controls_container button {
     background: transparent;
     border-radius: 10px;
     border: 1px solid var(--var--border-button);
@@ -57,7 +62,7 @@ main .controls_container button {
     padding: 10px;
 }
 
-main .controls_container button:not(:last-of-type) {
+section .controls_container button:not(:last-of-type) {
     margin-right: 15px;
 }
 
@@ -67,4 +72,14 @@ main .controls_container button:not(:last-of-type) {
 
 .rest {
     border: 1px solid #8edf00 !important;    
+}
+
+@media (max-width: 640px) {
+    section {
+        margin: 40px auto 0 auto;
+    }
+
+    section > h1 {
+        font-size: 1.5em;
+    }
 }

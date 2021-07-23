@@ -10,7 +10,16 @@ export default function Button({
     onClick,
 }: IButton): JSX.Element {
     return (
-        <button disabled={disabled} type="button" onClick={onClick}>
+        <button
+            style={
+                disabled
+                    ? { borderColor: '#ff4544' }
+                    : { borderColor: '#e7e7e7' }
+            }
+            disabled={disabled}
+            type="button"
+            onClick={onClick}
+        >
             {value}
         </button>
     );

@@ -115,27 +115,29 @@ export default function PomodoroApp(): JSX.Element {
 
     return (
         <main>
-            <h1>You are: {currentTask}</h1>
-            <h1 ref={timeRef}>{returnTime(second)}</h1>
-            <h1>time worked: {returnTime(timeWorked)}</h1>
-            <h1>pomodoro cycles: {pomodoroCycles}</h1>
-            <div className="controls_container">
-                <Button
-                    disabled={pause}
-                    onClick={() => handleClickWork()}
-                    value="Work"
-                />
-                <Button
-                    disabled={pause}
-                    onClick={() => handleClickRest()}
-                    value="Rest"
-                />
-                <Button
-                    disabled={false}
-                    onClick={() => handleClickPause()}
-                    value={!pause ? 'Pause' : 'Continue'}
-                />
-            </div>
+            <section className="conteudo">
+                <h1>You are: {currentTask}</h1>
+                <h1 ref={timeRef}>{returnTime(second)}</h1>
+                <h1>time worked: {returnTime(timeWorked)}</h1>
+                <h1>pomodoro cycles: {pomodoroCycles}</h1>
+                <div className="controls_container">
+                    <Button
+                        disabled={pause}
+                        onClick={() => handleClickWork()}
+                        value="Work"
+                    />
+                    <Button
+                        disabled={pause}
+                        onClick={() => handleClickRest()}
+                        value="Rest"
+                    />
+                    <Button
+                        disabled={false}
+                        onClick={() => handleClickPause()}
+                        value={!pause ? 'Pause' : 'Continue'}
+                    />
+                </div>
+            </section>
         </main>
     );
 }
