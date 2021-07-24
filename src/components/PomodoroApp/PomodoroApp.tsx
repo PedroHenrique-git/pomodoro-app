@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import returnTime from '../../utils/returnTime';
 import Button from '../Button/Button';
 import './PomodoroApp.css';
-import audio from '../../audio/sound.mp3';
+import audioStartFile from '../../audio/sound.mp3';
+import audioRestFile from '../../audio/alarm.wav';
 
 interface IData {
     second: number;
@@ -15,9 +16,11 @@ interface IData {
     pomodoroCycles: number;
 }
 
-const audioTag = new Audio(audio);
-const workTime = 1500; // 25 min
-const restTime = 300; // 5 min
+const audioStart = new Audio(audioStartFile);
+const audioRest = new Audio(audioRestFile);
+
+const workTime = 10; // 25 min
+const restTime = 5; // 5 min
 
 export default function PomodoroApp(): JSX.Element {
     const [second, setSeconds] = useState(workTime);
@@ -37,6 +40,8 @@ export default function PomodoroApp(): JSX.Element {
 
         timeRef!.current!.classList.remove('rest');
         timeRef!.current!.classList.add('work');
+
+        audioRest.play();
     };
 
     const activeRest = (isBigRest?: boolean) => {
@@ -45,7 +50,6 @@ export default function PomodoroApp(): JSX.Element {
 
         if (isBigRest) {
             setSeconds(restTime * 4);
-            audioTag.play();
         } else {
             setSeconds(restTime);
         }
@@ -55,6 +59,8 @@ export default function PomodoroApp(): JSX.Element {
 
         timeRef!.current!.classList.remove('work');
         timeRef!.current!.classList.add('rest');
+
+        audioStart.play();
     };
 
     const handleClickWork = () => activeWork();
@@ -106,7 +112,10 @@ export default function PomodoroApp(): JSX.Element {
         if ((work || rest) && !pause) {
             timer = window.setInterval(() => {
                 setSeconds((prevSecond) => prevSecond - 1);
-                setTimeWorked((prevSecond) => prevSecond + 1);
+
+                if (work) {
+                    setTimeWorked((prevSecond) => prevSecond + 1);
+                }
             }, 1000);
         } else {
             clearInterval(timer);
