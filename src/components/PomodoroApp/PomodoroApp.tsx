@@ -19,8 +19,8 @@ interface IData {
 const audioStart = new Audio(audioStartFile);
 const audioRest = new Audio(audioRestFile);
 
-const workTime = 10; // 25 min
-const restTime = 5; // 5 min
+const workTime = 1500; // 25 min
+const restTime = 300; // 5 min
 
 export default function PomodoroApp(): JSX.Element {
     const [second, setSeconds] = useState(workTime);
